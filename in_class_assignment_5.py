@@ -24,20 +24,59 @@ The base cases occur when the sublists are either empty or have one element, as 
  '''
 
 
-def quicksort(numbers_in_a_list):
+def partition(array, start, end):
+    pivot = array[start]
+    low = start + 1
+    high = end
 
-#WRITE YOUR CODE HERE FOR THE RECURSIVE SORTING FUNCTION
+    while True:
+        
+        while low <= high and array[high] >= pivot:
+            high = high - 1
 
-    return #WHAT DOES IT RETURN?
+        while low <= high and array[low] <= pivot:
+            low = low + 1
 
+      
+        if low <= high:
+            array[low], array[high] = array[high], array[low]
+           
+        else:
+            
+            break
+
+    array[start], array[high] = array[high], array[start]
+
+    return high
+def quick_sort(array, start, end):
+    if start >= end:
+        return
+
+    p = partition(array, start, end)
+    quick_sort(array, start, p-1)
+    quick_sort(array, p+1, end)
+
+    ##code from https://stackoverflow.com/questions/18262306/quicksort-with-python
 
 def main():
+    #array = [29,99,27,41,66,28,44,78,87,19,31,76,58,88,83,97,12,21,44]
 
-# WRITE YOUR MAIN FUNCTION HERE TO READ IN YOUR numbers.txt FILE, RUN THE LIST THROUGH YOUR SORTING ALGORITHM, 
-# AND WRITE OUT YOUR FILE
-
-    return #WHAT DOES IT RETURN?
-
+    #quick_sort(array, 0, len(array) - 1)
+    #print(array)
+    numfile = 'numbers.txt'
+    fileN = open(numfile, 'r')
+    reader = fileN.read()
+    Remover = reader.strip('[]')
+    spliter = Remover.split(',')
+    fileN.close()
+    setL = [eval(i) for i in spliter]
+    
+    quick_sort(setL,0,len(setL) - 1)
+    print(setL)
+    
+    fileName = 'sorted.txt'
+    with open(fileName,'w') as fileObject:
+        return fileObject.write(str(setL))
 
 if __name__ == "__main__":
     main()
